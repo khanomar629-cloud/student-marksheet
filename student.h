@@ -1,3 +1,7 @@
+#define SUBJECTS 5
+#define MAX_MARKS 100
+#include <stdbool.h>
+
 
 struct Student
 {
@@ -7,7 +11,7 @@ struct Student
     int total;
     float percentage;
     char grade[3];
-    char status[10];
+    bool status;
 };
 
 void addStudent();
