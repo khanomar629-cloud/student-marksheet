@@ -4,20 +4,25 @@
 
 int readStudent(FILE *fp, struct Student *st)
 {
-    return fscanf(fp, "%d %s %d %d %d %d %d %d %f %s %d",
-                  &st->rollno,
-                  st->name,
-                  &st->marks[0],
-                  &st->marks[1],
-                  &st->marks[2],
-                  &st->marks[3],
-                  &st->marks[4],
-                  &st->total,
-                  &st->percentage,
-                  st->grade,
-                  &st->status) == 11;
-}
+    int status;
 
+    int result = fscanf(fp,"%d %49s %d %d %d %d %d %d %f %2s %d",
+        &st->rollno,
+        st->name,
+        &st->marks[0],
+        &st->marks[1],
+        &st->marks[2],
+        &st->marks[3],
+        &st->marks[4],
+        &st->total,
+        &st->percentage,
+        st->grade,
+        &status);
+
+    st->status = status;
+
+    return result == 11;
+}
 
 void writeStudent(FILE *fp, struct Student st)
 {
@@ -44,15 +49,14 @@ void addStudent()
 
     printf("Enter Roll Number: ");
     scanf("%d", &st.rollno);
-
+ 
     printf("Enter Name: ");
     scanf("%s", st.name);
 
     st.total = 0;
 
-    printf("Enter Marks of 5 Subjects :\n", MAX_MARKS);
-
-    for (int i = 0; i < SUBJECTS; i++)
+printf("Enter Marks of %d Subjects (Max %d each):\n", SUBJECTS, MAX_MARKS);
+    for (int i = 0; i < 5; i++)
     {
         printf("Subject %d: ", i + 1);
         scanf("%d", &st.marks[i]);
@@ -206,7 +210,7 @@ void updateStudent()
             st.total = 0;
 
 
-            for (int i = 0; i < SUBJECTS; i++)
+            for (int i = 0; i < 5; i++)
             {
                 printf("Subject %d: ", i + 1);
 
@@ -258,6 +262,7 @@ void updateStudent()
 
 void deleteStudent()
 {
+    
     struct Student st;
 
     int roll;
@@ -440,28 +445,23 @@ void classtotal()
 
     printf("\nClass Total :\n");
 
-    printf("Class Topper : %s (%d Marks)\n",
-           topper,
-           highestTotal);
+    printf("Class Topper : %s (%d Marks)\n", topper, highestTotal);
 
 
 
-    printf("\nSubject-wise Highest Marks\n");
+    printf("\nSubject wise Highest Marks\n");
 
     for(int i = 0; i < SUBJECTS; i++)
     {
-        printf("Subject %d : %d\n",
-               i + 1,
-               highestMarks[i]);
+        printf("Subject %d : %d\n", i + 1,highestMarks[i]);
     }
 
 
 
-    printf("\nClass Average : %.2f%%\n",
-           totalPercentage / count);
+    printf("\nClass Average : %.2f%%\n", totalPercentage / count);
 
 
-    printf("Passed Students : %d\n", pass);
+    printf("Passed : %d\n", pass);
 
-    printf("Failed Students : %d\n", fail);
+    printf("Failed : %d\n", fail);
 }
